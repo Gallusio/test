@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta name="viewport" content="initial-scale=1, width=device-width">
+        <title>hello</title>
+    </head>
+    <body>
+       <h1 id="stock-price"> --- </h1>
+       <h1 id="final-price"> --- </h1>
+       <script>
+            let ws = new WebSocket("wss://stream.binance.com:9443/ws/shibusdt@trade")
+            let stockPriceElement = document.getElementById("stock-price")
+            let finalPriceElement = document.getElementById("final-price")
+            let calPrice
+            ws.onmessage = (event) => {
+                let stockObject = JSON.parse(event.data)
+                console.log(stockObject.p)
+                stockPriceElement.innerText = "SHIB/USDT: " + stockObject.p + "US Dollar per coin"
+                calPrice = stockObject.p *33.83 *100000000
+                finalPriceElement.innerText = calPrice.toFixed(2)
+            }
+       </script>
+    </body>
+</html>
